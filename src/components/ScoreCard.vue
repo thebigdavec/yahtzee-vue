@@ -1,5 +1,5 @@
 <template>
-  <h2>{{ userNamePossessive }} Score Card</h2>
+  <h2 class="center">{{ userNamePossessive }} Score Card</h2>
   <h3>Upper Section</h3>
   <div class="score-section">
     <div class="score-row">

@@ -68,5 +68,3 @@ const props = defineProps({
 })
 const emit = defineEmits(['toggleHoldDie'])
 </script>
-
-<style></style>

@@ -1,12 +1,13 @@
 <template>
-  <h1>Yahtzee</h1>
-  <h3>{{ numberOfPlayers }} players currently playing</h3>
+  <h1 class="center">Yahtzee</h1>
+  <h2 class="center">{{ numberOfPlayers }} players currently playing</h2>
   <hr />
+  <h2 class="center">{{ currentUserNamePossessive }} turn</h2>
   <Dice :dice="dice" @toggleHoldDie="toggleHoldDie" />
-  <button @click="rollDice">
-    {{ rolls ? 'Roll Dice' : 'Next Player'
-    }}{{ rolls ? ` - ${rolls} rolls remaining` : '' }}
-  </button>
+  <div class="btn center">
+    <button v-if="rolls" @click="rollDice">Roll Dice</button>
+    <div class="center" v-else>Choose your score slot.</div>
+  </div>
   <hr />
   <ScoreCard />
 </template>
@@ -54,6 +55,9 @@ function rollDice() {
 const numberOfPlayers = computed(() => {
   return store.getters.numberOfPlayers
 })
+const currentUserNamePossessive = computed(() => {
+  return store.getters.currentUserNamePossessive
+})
 onMounted(() => {
   initialiseDice()
 })
@@ -74,9 +78,7 @@ body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 .dice {
   display: grid;
@@ -84,7 +86,7 @@ body {
   gap: 1rem;
   justify-content: center;
   align-items: center;
-  margin-block-end: 2rem;
+  margin-block: 1.5rem;
 }
 .die {
   cursor: pointer;
@@ -107,6 +109,7 @@ body {
   display: inline-grid;
   width: 1rem;
   height: 1rem;
+  cursor: default;
 }
 .spot {
   background-color: transparent;
@@ -157,5 +160,17 @@ body {
 .score-amount.isUsed {
   opacity: 1;
   font-weight: 700;
+}
+.score-name:not(.isUsed):hover {
+  background: red;
+}
+.center {
+  text-align: center;
+}
+button {
+  margin-left: auto;
+}
+.btn {
+  margin-block: 1.5rem;
 }
 </style>

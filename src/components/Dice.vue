@@ -21,5 +21,3 @@ function toggleHoldDie(index) {
   emit('toggleHoldDie', index)
 }
 </script>
-
-<style></style>
