@@ -9,8 +9,8 @@ const store = createStore({
           name: 'Dave',
           scoreCard: {
             aces: {
-              value: 5,
-              isUsed: true
+              value: 0,
+              isUsed: false
             },
             twos: {
               value: 0,
@@ -29,8 +29,8 @@ const store = createStore({
               isUsed: false
             },
             sixes: {
-              value: 6,
-              isUsed: true
+              value: 0,
+              isUsed: false
             },
             threeOfAKind: {
               value: 0,
@@ -190,6 +190,9 @@ const store = createStore({
         state.users[state.currentUser].scoreCard.fives.value * 5 +
         state.users[state.currentUser].scoreCard.sixes.value * 6
       if (total >= 63) return 35
+      return 0
+    },
+    lowerTotal(state) {
       return 0
     },
     numberOfPlayers(state) {

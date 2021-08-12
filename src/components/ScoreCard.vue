@@ -153,7 +153,6 @@ import Die from './Die.vue'
 import { computed } from 'vue'
 import { useStore, mapState } from 'vuex'
 const store = useStore()
-const lowerTotal = 100
 console.log(store.getters.upperTotal)
 
 const userNamePossessive = computed(() => {
@@ -201,10 +200,15 @@ const upperSubtotal = computed(() => {
 const bonus35 = computed(() => {
   return store.getters.bonus35
 })
+const lowerTotal = computed(() => {
+  return store.getters.lowerTotal
+})
 const upperTotal = computed(() => {
   return store.getters.upperTotal + store.getters.bonus35
 })
 const grandTotal = computed(() => {
-  return store.getters.upperTotal + store.getters.bonus35 + lowerTotal
+  return (
+    store.getters.upperTotal + store.getters.bonus35 + store.getters.lowerTotal
+  )
 })
 </script>
