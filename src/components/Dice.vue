@@ -1,6 +1,4 @@
 <template>
-  <h1>Yahtzee</h1>
-  <hr />
   <div class="dice">
     <Die
       v-for="(die, index) in dice"

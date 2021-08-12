@@ -3,6 +3,7 @@
     <div
       class="spot"
       :class="{
+        grey: props.value === 0,
         spoton: props.value > 3,
         example: props.graphic
       }"
@@ -11,6 +12,7 @@
     <div
       class="spot"
       :class="{
+        grey: props.value === 0,
         spoton: props.value > 1,
         example: props.graphic
       }"
@@ -25,6 +27,7 @@
     <div
       class="spot"
       :class="{
+        grey: props.value === 0,
         spoton: props.value === 1 || props.value === 3 || props.value === 5,
         example: props.graphic
       }"
@@ -39,6 +42,7 @@
     <div
       class="spot"
       :class="{
+        grey: props.value === 0,
         spoton: props.value > 1,
         example: props.graphic
       }"
@@ -47,6 +51,7 @@
     <div
       class="spot"
       :class="{
+        grey: props.value === 0,
         spoton: props.value > 3,
         example: props.graphic
       }"
