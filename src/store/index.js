@@ -4,13 +4,14 @@ const store = createStore({
   state() {
     return {
       currentUser: 0,
+      isScoring: false,
       users: [
         {
           name: 'Dave',
           scoreCard: {
             aces: {
-              value: 0,
-              isUsed: false
+              value: 5,
+              isUsed: true
             },
             twos: {
               value: 0,
@@ -87,8 +88,8 @@ const store = createStore({
               isUsed: false
             },
             sixes: {
-              value: 0,
-              isUsed: false
+              value: 5,
+              isUsed: true
             },
             threeOfAKind: {
               value: 0,
@@ -202,12 +203,39 @@ const store = createStore({
   mutations: {
     SET_CURRENT_USER(state, payload) {
       state.currentUser = payload
+    },
+    SET_NEW_SCORE(state, { id, diceValues }) {
+      state.isScoring = false
+      switch (id) {
+        case 'aces':
+          state.users[state.currentUser].scoreCard.aces.value = diceValues[0]
+          break
+        case 'twos':
+          state.users[state.currentUser].scoreCard.twos.value = diceValues[1]
+          state.users[state.currentUser].scoreCard.twos.isUsed = true
+          break
+        default:
+          return
+      }
+    },
+    SET_SCORING_TRUE(state) {
+      state.isScoring = true
     }
   },
   actions: {
     NextPlayer({ commit, state }) {
       let nextPlayer = (state.currentUser + 1) % state.users.length
       commit('SET_CURRENT_USER', nextPlayer)
+    },
+    SetScore({ commit, state }, { id, dice }) {
+      const diceValues = [0, 0, 0, 0, 0, 0]
+      for (let i = 0; i < dice.length; i++) {
+        diceValues[dice[i].die - 1]++
+      }
+      commit('SET_NEW_SCORE', { id, diceValues })
+    },
+    SetScoringTrue({ commit }) {
+      commit('SET_SCORING_TRUE')
     }
   },
   modules: {}

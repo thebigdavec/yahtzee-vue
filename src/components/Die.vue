@@ -61,5 +61,4 @@ const props = defineProps({
   graphic: Boolean,
   inline: Boolean
 })
-const emit = defineEmits(['toggleHoldDie'])
 </script>

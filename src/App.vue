@@ -9,7 +9,7 @@
     <div class="center" v-else>Choose your score slot.</div>
   </div>
   <hr />
-  <ScoreCard />
+  <ScoreCard @confirmScoreSelection="confirmScoreSelection" />
 </template>
 
 <script setup>
@@ -28,7 +28,26 @@ const dice = ref([
   { value: 0, isHeld: false }
 ])
 const rolls = ref(3)
+const isScoring = computed(() => {
+  store.state.isScoring
+})
 
+function confirmScoreSelection({ id, isUsed }) {
+  if (isUsed === true) return
+  const isTrue = confirm('Is it true?')
+  if (isTrue) setScore(id)
+}
+function setScore(id) {
+  store.dispatch('SetScore', {
+    id,
+    dice: dice.value
+  })
+  setTimeout(() => {
+    store.dispatch('NextPlayer')
+    rolls.value = 3
+    initialiseDice()
+  }, 2000)
+}
 function initialiseDice() {
   for (let i = 0; i < 5; i++) {
     dice.value[i] = { die: 0, isHeld: false }
@@ -46,6 +65,9 @@ function rollDice() {
     }
   }
   rolls.value--
+  if (rolls.value === 0) {
+    store.dispatch('SetScoringTrue')
+  }
   if (rolls.value < 0) {
     store.dispatch('NextPlayer')
     rolls.value = 3
@@ -57,6 +79,9 @@ const numberOfPlayers = computed(() => {
 })
 const currentUserNamePossessive = computed(() => {
   return store.getters.currentUserNamePossessive
+})
+const opacityWhenScoring = computed(() => {
+  return isScoring.value ? 0.5 : 1
 })
 onMounted(() => {
   initialiseDice()
@@ -137,12 +162,19 @@ body {
 .score-row {
   display: flex;
   gap: 1rem;
+  align-items: center;
+}
+.score-row.isUsed {
+  opacity: v-bind(opacityWhenScoring);
 }
 .score-name {
   display: flex;
   flex: 33%;
   gap: 0.5rem;
   font-weight: 700;
+  border: 1px solid transparent;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
 }
 .score-name small {
   font-weight: 400;
@@ -157,12 +189,23 @@ body {
   text-align: left;
   opacity: 0.5;
 }
-.score-amount.isUsed {
+.isUsed .score-amount,
+.bold .score-amount {
   opacity: 1;
   font-weight: 700;
 }
-.score-name:not(.isUsed):hover {
-  background: red;
+.score-row.isScoring:not(.isUsed) .score-name {
+  cursor: pointer;
+  background-color: lightcyan;
+  box-shadow: 2px 2px 4px #fff inset, -2px -2px 4px #0003 inset;
+  border: 1px solid #bbb;
+}
+.score-row.isScoring:not(.isUsed) .score-name:hover,
+.score-row.isScoring:not(.isUsed) .score-name:focus-visible {
+  border: 1px solid black;
+}
+.score-row.isScoring:not(.isUsed) .score-name:active {
+  box-shadow: 2px 2px 4px #0003 inset, -2px -2px 4px #fff inset;
 }
 .center {
   text-align: center;
