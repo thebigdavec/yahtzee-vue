@@ -138,66 +138,108 @@
       class="score-row"
       :class="{ isUsed: isThreeOfAKindUsed, isScoring: isScoring }"
     >
-      <div class="score-name" @click="confirmScoreSelection">
+      <div
+        id="threeOfAKind"
+        :data-is-used="isThreeOfAKindUsed"
+        class="score-name"
+        @click="confirmScoreSelection"
+      >
         <div>3 of a kind</div>
       </div>
-      <div class="score-amount">0</div>
+      <div class="score-amount">{{ threeOfAKind }}</div>
     </div>
     <div
       class="score-row"
       :class="{ isUsed: isFourOfAKindUsed, isScoring: isScoring }"
     >
-      <div class="score-name" @click="confirmScoreSelection">
+      <div
+        id="fourOfAKind"
+        :data-is-used="isFourOfAKindUsed"
+        class="score-name"
+        @click="confirmScoreSelection"
+      >
         <div>4 of a kind</div>
       </div>
-      <div class="score-amount">0</div>
+      <div class="score-amount">{{ fourOfAKind }}</div>
     </div>
     <div
       class="score-row"
       :class="{ isUsed: isFullHouseUsed, isScoring: isScoring }"
     >
-      <div class="score-name" @click="confirmScoreSelection">
+      <div
+        id="fullHouse"
+        :data-is-used="isFullHouseUsed"
+        class="score-name"
+        @click="confirmScoreSelection"
+      >
         <div>Full House</div>
       </div>
-      <div class="score-amount">0</div>
+      <div class="score-amount">{{ fullHouse }}</div>
     </div>
     <div
       class="score-row"
       :class="{ isUsed: isSmStraightUsed, isScoring: isScoring }"
     >
-      <div class="score-name column" @click="confirmScoreSelection">
+      <div
+        id="smStraight"
+        :data-is-used="isSmStraightUsed"
+        class="score-name column"
+        @click="confirmScoreSelection"
+      >
         <div>Small Straight</div>
         <small>Sequence of 4</small>
       </div>
-      <div class="score-amount">0</div>
+      <div class="score-amount">{{ smStraight }}</div>
     </div>
     <div
       class="score-row"
       :class="{ isUsed: isLgStraightUsed, isScoring: isScoring }"
     >
-      <div class="score-name column" @click="confirmScoreSelection">
+      <div
+        id="lgStraight"
+        :data-is-used="isLgStraightUsed"
+        class="score-name column"
+        @click="confirmScoreSelection"
+      >
         <div>Large Straight</div>
         <small>Sequence of 5</small>
       </div>
-      <div class="score-amount">0</div>
+      <div class="score-amount">{{ lgStraight }}</div>
     </div>
     <div
       class="score-row"
       :class="{ isUsed: isYahtzeeUsed, isScoring: isScoring }"
     >
-      <div class="score-name column" @click="confirmScoreSelection">
+      <div
+        id="yahtzee"
+        :data-is-used="isYahtzeeUsed"
+        class="score-name column"
+        @click="confirmScoreSelection"
+      >
         <div>YAHTZEE</div>
         <small>5 of a kind</small>
       </div>
-      <div class="score-amount">0</div>
+      <div class="score-amount">{{ yahtzee }}</div>
     </div>
-    <div class="score-row">
-      <div class="score-name" @click="confirmScoreSelection">Chance</div>
-      <div class="score-amount">0</div>
+    <div
+      class="score-row"
+      :class="{ isUsed: isChanceUsed, isScoring: isScoring }"
+    >
+      <div
+        id="chance"
+        :data-is-used="isChanceUsed"
+        class="score-name"
+        @click="confirmScoreSelection"
+      >
+        Chance
+      </div>
+      <div class="score-amount">{{ chance }}</div>
     </div>
-    <div class="score-row">
+    <div class="score-row bold">
       <div class="score-name">YAHTZEE BONUS</div>
-      <div class="score-amount">0</div>
+      <div v-if="yahtzeeBonus" class="score-amount">
+        <span v-for="check in yahtzeeBonus">/</span>
+      </div>
     </div>
     <div class="score-row bold">
       <div class="score-name column">
@@ -231,8 +273,8 @@ const emit = defineEmits(['confirmScoreSelection'])
 
 function confirmScoreSelection(e) {
   const id = e.target.closest('.score-name').id
-  const isUsed = e.target.closest('.score-name').dataset.isUsed
-  if (isScoring) {
+  const isUsed = e.target.closest('.score-name').dataset.isUsed === 'true'
+  if (isScoring.value === true && isUsed === false) {
     emit('confirmScoreSelection', {
       id,
       isUsed
@@ -264,6 +306,30 @@ const fives = computed(() => {
 const sixes = computed(() => {
   return store.getters.sixes
 })
+const threeOfAKind = computed(() => {
+  return store.getters.threeOfAKind
+})
+const fourOfAKind = computed(() => {
+  return store.getters.fourOfAKind
+})
+const fullHouse = computed(() => {
+  return store.getters.fullHouse
+})
+const smStraight = computed(() => {
+  return store.getters.smStraight
+})
+const lgStraight = computed(() => {
+  return store.getters.lgStraight
+})
+const yahtzee = computed(() => {
+  return store.getters.yahtzee
+})
+const chance = computed(() => {
+  return store.getters.chance
+})
+const yahtzeeBonus = computed(() => {
+  return store.getters.yahtzeeBonus
+})
 
 const isAcesUsed = computed(() => {
   return store.getters.acesUsed
@@ -283,6 +349,27 @@ const isFivesUsed = computed(() => {
 const isSixesUsed = computed(() => {
   return store.getters.sixesUsed
 })
+const isThreeOfAKindUsed = computed(() => {
+  return store.getters.threeOfAKindUsed
+})
+const isFourOfAKindUsed = computed(() => {
+  return store.getters.fourOfAKindUsed
+})
+const isFullHouseUsed = computed(() => {
+  return store.getters.fullHouseUsed
+})
+const isSmStraightUsed = computed(() => {
+  return store.getters.smStraightUsed
+})
+const isLgStraightUsed = computed(() => {
+  return store.getters.lgStraightUsed
+})
+const isYahtzeeUsed = computed(() => {
+  return store.getters.yahtzeeUsed
+})
+const isChanceUsed = computed(() => {
+  return store.getters.chanceUsed
+})
 const upperSubtotal = computed(() => {
   return store.getters.upperTotal
 })
@@ -297,7 +384,10 @@ const upperTotal = computed(() => {
 })
 const grandTotal = computed(() => {
   return (
-    store.getters.upperTotal + store.getters.bonus35 + store.getters.lowerTotal
+    store.getters.upperTotal +
+    store.getters.bonus35 +
+    store.getters.lowerTotal +
+    store.getters.yahtzeeBonus * 100
   )
 })
 </script>

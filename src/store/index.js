@@ -10,8 +10,8 @@ const store = createStore({
           name: 'Dave',
           scoreCard: {
             aces: {
-              value: 5,
-              isUsed: true
+              value: 0,
+              isUsed: false
             },
             twos: {
               value: 0,
@@ -61,7 +61,7 @@ const store = createStore({
               value: 0,
               isUsed: false
             },
-            yahtzeeBonuses: [0]
+            yahtzeeBonus: 0
           }
         },
         {
@@ -88,8 +88,8 @@ const store = createStore({
               isUsed: false
             },
             sixes: {
-              value: 5,
-              isUsed: true
+              value: 0,
+              isUsed: false
             },
             threeOfAKind: {
               value: 0,
@@ -119,7 +119,7 @@ const store = createStore({
               value: 0,
               isUsed: false
             },
-            yahtzeeBonuses: [0]
+            yahtzeeBonus: 0
           }
         }
       ],
@@ -154,6 +154,30 @@ const store = createStore({
     sixes(state) {
       return state.users[state.currentUser].scoreCard.sixes.value * 6
     },
+    threeOfAKind(state) {
+      return state.users[state.currentUser].scoreCard.threeOfAKind.value
+    },
+    fourOfAKind(state) {
+      return state.users[state.currentUser].scoreCard.fourOfAKind.value
+    },
+    fullHouse(state) {
+      return state.users[state.currentUser].scoreCard.fullHouse.value
+    },
+    smStraight(state) {
+      return state.users[state.currentUser].scoreCard.smStraight.value
+    },
+    lgStraight(state) {
+      return state.users[state.currentUser].scoreCard.lgStraight.value
+    },
+    yahtzee(state) {
+      return state.users[state.currentUser].scoreCard.yahtzee.value
+    },
+    chance(state) {
+      return state.users[state.currentUser].scoreCard.chance.value
+    },
+    yahtzeeBonus(state) {
+      return state.users[state.currentUser].scoreCard.yahtzeeBonus
+    },
     acesUsed(state) {
       return state.users[state.currentUser].scoreCard.aces.isUsed
     },
@@ -171,6 +195,27 @@ const store = createStore({
     },
     sixesUsed(state) {
       return state.users[state.currentUser].scoreCard.sixes.isUsed
+    },
+    threeOfAKindUsed(state) {
+      return state.users[state.currentUser].scoreCard.threeOfAKind.isUsed
+    },
+    fourOfAKindUsed(state) {
+      return state.users[state.currentUser].scoreCard.fourOfAKind.isUsed
+    },
+    fullHouseUsed(state) {
+      return state.users[state.currentUser].scoreCard.fullHouse.isUsed
+    },
+    smStraightUsed(state) {
+      return state.users[state.currentUser].scoreCard.smStraight.isUsed
+    },
+    lgStraightUsed(state) {
+      return state.users[state.currentUser].scoreCard.lgStraight.isUsed
+    },
+    yahtzeeUsed(state) {
+      return state.users[state.currentUser].scoreCard.yahtzee.isUsed
+    },
+    chanceUsed(state) {
+      return state.users[state.currentUser].scoreCard.chance.isUsed
     },
     upperTotal(state) {
       const total =
@@ -209,14 +254,139 @@ const store = createStore({
       switch (id) {
         case 'aces':
           state.users[state.currentUser].scoreCard.aces.value = diceValues[0]
+          state.users[state.currentUser].scoreCard.aces.isUsed = true
           break
         case 'twos':
           state.users[state.currentUser].scoreCard.twos.value = diceValues[1]
           state.users[state.currentUser].scoreCard.twos.isUsed = true
           break
+        case 'threes':
+          state.users[state.currentUser].scoreCard.threes.value = diceValues[2]
+          state.users[state.currentUser].scoreCard.threes.isUsed = true
+          break
+        case 'fours':
+          state.users[state.currentUser].scoreCard.fours.value = diceValues[3]
+          state.users[state.currentUser].scoreCard.fours.isUsed = true
+          break
+        case 'fives':
+          state.users[state.currentUser].scoreCard.fives.value = diceValues[4]
+          state.users[state.currentUser].scoreCard.fives.isUsed = true
+          break
+        case 'sixes':
+          state.users[state.currentUser].scoreCard.sixes.value = diceValues[5]
+          state.users[state.currentUser].scoreCard.sixes.isUsed = true
+          break
+        case 'threeOfAKind':
+          const thereAreThreeSameDice = diceValues.filter(dieVal => dieVal >= 3)
+          if (thereAreThreeSameDice.length) {
+            state.users[state.currentUser].scoreCard.threeOfAKind.value =
+              diceValues[0] +
+              diceValues[1] * 2 +
+              diceValues[2] * 3 +
+              diceValues[3] * 4 +
+              diceValues[4] * 5 +
+              diceValues[5] * 6
+          } else {
+            state.users[state.currentUser].scoreCard.threeOfAKind.value = 0
+          }
+          state.users[state.currentUser].scoreCard.threeOfAKind.isUsed = true
+          break
+        case 'fourOfAKind':
+          const thereAreFourSameDice = diceValues.filter(dieVal => dieVal >= 4)
+          if (thereAreFourSameDice.length) {
+            state.users[state.currentUser].scoreCard.fourOfAKind.value =
+              diceValues[0] +
+              diceValues[1] * 2 +
+              diceValues[2] * 3 +
+              diceValues[3] * 4 +
+              diceValues[4] * 5 +
+              diceValues[5] * 6
+          } else {
+            state.users[state.currentUser].scoreCard.fourOfAKind.value = 0
+          }
+          state.users[state.currentUser].scoreCard.fourOfAKind.isUsed = true
+          break
+        case 'fullHouse':
+          const checkForFullHouse = diceValues.filter(
+            dieVal => dieVal === 2 || dieVal === 3
+          )
+          if (
+            checkForFullHouse.length === 2 &&
+            checkForFullHouse[0] + checkForFullHouse[1] === 5
+          ) {
+            state.users[state.currentUser].scoreCard.fullHouse.value = 25
+          } else {
+            state.users[state.currentUser].scoreCard.fullHouse.value = 0
+          }
+          state.users[state.currentUser].scoreCard.fullHouse.isUsed = true
+          break
+        case 'smStraight':
+          const diceExistListSm = diceValues.map(dieVal => dieVal !== 0)
+          if (
+            (diceExistListSm[0] &&
+              diceExistListSm[1] &&
+              diceExistListSm[2] &&
+              diceExistListSm[3]) ||
+            (diceExistListSm[1] &&
+              diceExistListSm[2] &&
+              diceExistListSm[3] &&
+              diceExistListSm[4]) ||
+            (diceExistListSm[2] &&
+              diceExistListSm[3] &&
+              diceExistListSm[4] &&
+              diceExistListSm[5])
+          ) {
+            state.users[state.currentUser].scoreCard.smStraight.value = 30
+          } else {
+            state.users[state.currentUser].scoreCard.smStraight.value = 0
+          }
+          state.users[state.currentUser].scoreCard.smStraight.isUsed = true
+          break
+        case 'lgStraight':
+          const diceExistListLg = diceValues.map(dieVal => dieVal !== 0)
+          if (
+            (diceExistListLg[0] &&
+              diceExistListLg[1] &&
+              diceExistListLg[2] &&
+              diceExistListLg[3] &&
+              diceExistListLg[4]) ||
+            (diceExistListLg[1] &&
+              diceExistListLg[2] &&
+              diceExistListLg[3] &&
+              diceExistListLg[4] &&
+              diceExistListLg[5])
+          ) {
+            state.users[state.currentUser].scoreCard.lgStraight.value = 40
+          } else {
+            state.users[state.currentUser].scoreCard.lgStraight.value = 0
+          }
+          state.users[state.currentUser].scoreCard.lgStraight.isUsed = true
+          break
+        case 'yahtzee':
+          const checkYahtzee = diceValues.find(dieVal => dieVal === 5)
+          if (checkYahtzee) {
+            state.users[state.currentUser].scoreCard.yahtzee.value = 50
+          } else {
+            state.users[state.currentUser].scoreCard.yahtzee.value = 0
+          }
+          state.users[state.currentUser].scoreCard.yahtzee.isUsed = true
+          break
+        case 'chance':
+          state.users[state.currentUser].scoreCard.chance.value =
+            diceValues[0] +
+            diceValues[1] * 2 +
+            diceValues[2] * 3 +
+            diceValues[3] * 4 +
+            diceValues[4] * 5 +
+            diceValues[5] * 6
+          state.users[state.currentUser].scoreCard.chance.isUsed = true
+          break
         default:
           return
       }
+    },
+    ADD_YAHTZEE_BONUS(state) {
+      state.users[state.currentUser].scoreCard.yahtzeeBonus++
     },
     SET_SCORING_TRUE(state) {
       state.isScoring = true
@@ -231,6 +401,14 @@ const store = createStore({
       const diceValues = [0, 0, 0, 0, 0, 0]
       for (let i = 0; i < dice.length; i++) {
         diceValues[dice[i].die - 1]++
+      }
+      const checkYahtzee = diceValues.find(dieVal => dieVal === 5)
+      console.log('Auto check for yahtzee:', checkYahtzee)
+      if (
+        checkYahtzee &&
+        state.users[state.currentUser].scoreCard.yahtzee.value === 50
+      ) {
+        commit('ADD_YAHTZEE_BONUS')
       }
       commit('SET_NEW_SCORE', { id, diceValues })
     },
