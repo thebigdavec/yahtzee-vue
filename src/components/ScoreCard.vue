@@ -118,7 +118,7 @@
         {{ upperSubtotal }}
       </div>
     </div>
-    <div class="score-row">
+    <div class="score-row bold">
       <div class="score-name column">
         35 POINT BONUS
         <small>For total score 63 or more</small>

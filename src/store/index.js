@@ -63,65 +63,65 @@ const store = createStore({
             },
             yahtzeeBonus: 0
           }
-        },
-        {
-          name: 'Chris',
-          scoreCard: {
-            aces: {
-              value: 0,
-              isUsed: false
-            },
-            twos: {
-              value: 0,
-              isUsed: false
-            },
-            threes: {
-              value: 0,
-              isUsed: false
-            },
-            fours: {
-              value: 0,
-              isUsed: false
-            },
-            fives: {
-              value: 0,
-              isUsed: false
-            },
-            sixes: {
-              value: 0,
-              isUsed: false
-            },
-            threeOfAKind: {
-              value: 0,
-              isUsed: false
-            },
-            fourOfAKind: {
-              value: 0,
-              isUsed: false
-            },
-            fullHouse: {
-              value: 0,
-              isUsed: false
-            },
-            smStraight: {
-              value: 0,
-              isUsed: false
-            },
-            lgStraight: {
-              value: 0,
-              isUsed: false
-            },
-            yahtzee: {
-              value: 0,
-              isUsed: false
-            },
-            chance: {
-              value: 0,
-              isUsed: false
-            },
-            yahtzeeBonus: 0
-          }
         }
+        // {
+        //   name: 'Chris',
+        //   scoreCard: {
+        //     aces: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     twos: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     threes: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     fours: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     fives: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     sixes: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     threeOfAKind: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     fourOfAKind: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     fullHouse: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     smStraight: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     lgStraight: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     yahtzee: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     chance: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     yahtzeeBonus: 0
+        //   }
+        // }
       ],
       dice: []
     }
@@ -239,7 +239,16 @@ const store = createStore({
       return 0
     },
     lowerTotal(state) {
-      return 0
+      const total =
+        state.users[state.currentUser].scoreCard.threeOfAKind.value +
+        state.users[state.currentUser].scoreCard.fourOfAKind.value +
+        state.users[state.currentUser].scoreCard.fullHouse.value +
+        state.users[state.currentUser].scoreCard.smStraight.value +
+        state.users[state.currentUser].scoreCard.lgStraight.value +
+        state.users[state.currentUser].scoreCard.yahtzee.value +
+        state.users[state.currentUser].scoreCard.chance.value +
+        state.users[state.currentUser].scoreCard.yahtzeeBonus * 100
+      return total
     },
     numberOfPlayers(state) {
       return state.users.length
