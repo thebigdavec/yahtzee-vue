@@ -1,18 +1,16 @@
 <template>
-  <div class="die" :class="{ inline: props.inline }">
+  <div class="die" :class="{ inline: props.inline, grey: props.value === 0 }">
     <div
-      class="spot"
+      class="spot grey-spot"
       :class="{
-        grey: props.value === 0,
         spoton: props.value > 3,
         example: props.graphic
       }"
     ></div>
     <div class="spot"></div>
     <div
-      class="spot"
+      class="spot grey-spot"
       :class="{
-        grey: props.value === 0,
         spoton: props.value > 1,
         example: props.graphic
       }"
@@ -25,9 +23,8 @@
       }"
     ></div>
     <div
-      class="spot"
+      class="spot grey-spot"
       :class="{
-        grey: props.value === 0,
         spoton: props.value === 1 || props.value === 3 || props.value === 5,
         example: props.graphic
       }"
@@ -40,18 +37,16 @@
       }"
     ></div>
     <div
-      class="spot"
+      class="spot grey-spot"
       :class="{
-        grey: props.value === 0,
         spoton: props.value > 1,
         example: props.graphic
       }"
     ></div>
     <div class="spot"></div>
     <div
-      class="spot"
+      class="spot grey-spot"
       :class="{
-        grey: props.value === 0,
         spoton: props.value > 3,
         example: props.graphic
       }"

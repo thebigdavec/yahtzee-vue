@@ -116,7 +116,7 @@ body {
   border-radius: 50%;
   transition: background-color 0.5s ease-out;
 }
-.spot.grey {
+.grey .spot.grey-spot {
   box-shadow: -2px -2px 5px #0002, 2px 2px 4px #0003 inset, 2px 2px 5px #fff5,
     -2px -2px 4px #fff6 inset;
 }
