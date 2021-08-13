@@ -1,6 +1,9 @@
 <template>
   <h1 class="center">Yahtzee</h1>
-  <h2 class="center">{{ numberOfPlayers }} players currently playing</h2>
+  <h2 class="center">
+    {{ numberOfPlayers }} player{{ numberOfPlayers > 1 ? 's' : '' }} currently
+    playing
+  </h2>
   <hr />
   <h2 class="center">{{ currentUserNamePossessive }} turn</h2>
   <Dice v-if="!isGameOver" :dice="dice" @toggleHoldDie="toggleHoldDie" />
