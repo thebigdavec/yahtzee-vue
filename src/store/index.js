@@ -5,6 +5,8 @@ const store = createStore({
     return {
       currentUser: 0,
       isScoring: false,
+      turnsRemaining: 2,
+      gameOver: false,
       users: [
         {
           name: 'Dave',
@@ -63,65 +65,65 @@ const store = createStore({
             },
             yahtzeeBonus: 0
           }
+        },
+        {
+          name: 'Chris',
+          scoreCard: {
+            aces: {
+              value: 0,
+              isUsed: false
+            },
+            twos: {
+              value: 0,
+              isUsed: false
+            },
+            threes: {
+              value: 0,
+              isUsed: false
+            },
+            fours: {
+              value: 0,
+              isUsed: false
+            },
+            fives: {
+              value: 0,
+              isUsed: false
+            },
+            sixes: {
+              value: 0,
+              isUsed: false
+            },
+            threeOfAKind: {
+              value: 0,
+              isUsed: false
+            },
+            fourOfAKind: {
+              value: 0,
+              isUsed: false
+            },
+            fullHouse: {
+              value: 0,
+              isUsed: false
+            },
+            smStraight: {
+              value: 0,
+              isUsed: false
+            },
+            lgStraight: {
+              value: 0,
+              isUsed: false
+            },
+            yahtzee: {
+              value: 0,
+              isUsed: false
+            },
+            chance: {
+              value: 0,
+              isUsed: false
+            },
+            yahtzeeBonus: 0
+          }
         }
-        // {
-        //   name: 'Chris',
-        //   scoreCard: {
-        //     aces: {
-        //       value: 0,
-        //       isUsed: false
-        //     },
-        //     twos: {
-        //       value: 0,
-        //       isUsed: false
-        //     },
-        //     threes: {
-        //       value: 0,
-        //       isUsed: false
-        //     },
-        //     fours: {
-        //       value: 0,
-        //       isUsed: false
-        //     },
-        //     fives: {
-        //       value: 0,
-        //       isUsed: false
-        //     },
-        //     sixes: {
-        //       value: 0,
-        //       isUsed: false
-        //     },
-        //     threeOfAKind: {
-        //       value: 0,
-        //       isUsed: false
-        //     },
-        //     fourOfAKind: {
-        //       value: 0,
-        //       isUsed: false
-        //     },
-        //     fullHouse: {
-        //       value: 0,
-        //       isUsed: false
-        //     },
-        //     smStraight: {
-        //       value: 0,
-        //       isUsed: false
-        //     },
-        //     lgStraight: {
-        //       value: 0,
-        //       isUsed: false
-        //     },
-        //     yahtzee: {
-        //       value: 0,
-        //       isUsed: false
-        //     },
-        //     chance: {
-        //       value: 0,
-        //       isUsed: false
-        //     },
-        //     yahtzeeBonus: 0
-        //   }
-        // }
       ]
     }
   },
@@ -396,14 +398,66 @@ const store = createStore({
     ADD_YAHTZEE_BONUS(state) {
       state.users[state.currentUser].scoreCard.yahtzeeBonus++
     },
-    SET_SCORING_TRUE(state) {
-      state.isScoring = true
+    SET_SCORING(state, payload) {
+      state.isScoring = payload
+    },
+    DECREASE_TURN_COUNTER(state) {
+      state.turnsRemaining--
+    },
+    SET_GAME_OVER(state, payload) {
+      state.gameOver = payload
+    },
+    RESET_TURN_COUNTER(state) {
+      state.turnsRemaining = 12
+    },
+    RESET_USER_SCORES(state, user) {
+      state.users[user].scoreCard.aces.value = 0
+      state.users[user].scoreCard.twos.value = 0
+      state.users[user].scoreCard.threes.value = 0
+      state.users[user].scoreCard.fours.value = 0
+      state.users[user].scoreCard.fives.value = 0
+      state.users[user].scoreCard.sixes.value = 0
+      state.users[user].scoreCard.threeOfAKind.value = 0
+      state.users[user].scoreCard.fourOfAKind.value = 0
+      state.users[user].scoreCard.fullHouse.value = 0
+      state.users[user].scoreCard.smStraight.value = 0
+      state.users[user].scoreCard.lgStraight.value = 0
+      state.users[user].scoreCard.yahtzee.value = 0
+      state.users[user].scoreCard.chance.value = 0
+      state.users[user].scoreCard.aces.isUsed = false
+      state.users[user].scoreCard.twos.isUsed = false
+      state.users[user].scoreCard.threes.isUsed = false
+      state.users[user].scoreCard.fours.isUsed = false
+      state.users[user].scoreCard.fives.isUsed = false
+      state.users[user].scoreCard.sixes.isUsed = false
+      state.users[user].scoreCard.threeOfAKind.isUsed = false
+      state.users[user].scoreCard.fourOfAKind.isUsed = false
+      state.users[user].scoreCard.fullHouse.isUsed = false
+      state.users[user].scoreCard.smStraight.isUsed = false
+      state.users[user].scoreCard.lgStraight.isUsed = false
+      state.users[user].scoreCard.yahtzee.isUsed = false
+      state.users[user].scoreCard.chance.isUsed = false
+      state.users[user].scoreCard.yahtzeeBonus = 0
     }
   },
   actions: {
+    gameReset({ commit, state }) {
+      commit('RESET_TURN_COUNTER')
+      commit('SET_GAME_OVER', false)
+      for (let i = 0; i < state.users.length; i++) {
+        commit('RESET_USER_SCORES', i)
+      }
+      commit('SET_CURRENT_USER', 0), commit('SET_SCORING', false)
+    },
     NextPlayer({ commit, state }) {
       let nextPlayer = (state.currentUser + 1) % state.users.length
       commit('SET_CURRENT_USER', nextPlayer)
+      if (nextPlayer === 0) {
+        commit('DECREASE_TURN_COUNTER')
+      }
+    },
+    setGameOver({ commit, state }, payload) {
+      commit('SET_GAME_OVER', payload)
     },
     SetScore({ commit, state }, { id, dice }) {
       const diceValues = [0, 0, 0, 0, 0, 0]
@@ -421,7 +475,7 @@ const store = createStore({
       commit('SET_NEW_SCORE', { id, diceValues })
     },
     SetScoringTrue({ commit }) {
-      commit('SET_SCORING_TRUE')
+      commit('SET_SCORING', true)
     }
   },
   modules: {}

@@ -3,10 +3,19 @@
   <h2 class="center">{{ numberOfPlayers }} players currently playing</h2>
   <hr />
   <h2 class="center">{{ currentUserNamePossessive }} turn</h2>
-  <Dice :dice="dice" @toggleHoldDie="toggleHoldDie" />
-  <div class="btn center">
+  <Dice v-if="!isGameOver" :dice="dice" @toggleHoldDie="toggleHoldDie" />
+  <div v-else class="center">
+    <h2>Game Over!</h2>
+    <div class="btn center">
+      <button @click="restartGame">Play Again</button>
+    </div>
+  </div>
+  <div v-if="!isGameOver" class="btn center">
     <button v-if="rolls" @click="rollDice">Roll Dice</button>
     <div class="center" v-else>Choose your score slot.</div>
+    <button v-if="rolls < 3 && rolls > 0" @click="goToScoring">
+      Add to Score Card
+    </button>
   </div>
   <hr />
   <ScoreCard @confirmScoreSelection="confirmScoreSelection" />
@@ -31,11 +40,20 @@ const rolls = ref(3)
 const isScoring = computed(() => {
   store.state.isScoring
 })
-
+function restartGame() {
+  store.dispatch('gameReset')
+}
 function confirmScoreSelection({ id, isUsed }) {
   if (isUsed === true) return
-  const isTrue = confirm('Is it true?')
-  if (isTrue) setScore(id)
+  setScore(id)
+}
+function goToScoring() {
+  const reallyGoToScoring = confirm(
+    `Are you sure? You still have ${rolls.value} rolls remaining.`
+  )
+  if (reallyGoToScoring) {
+    store.dispatch('SetScoringTrue')
+  }
 }
 function setScore(id) {
   store.dispatch('SetScore', {
@@ -47,6 +65,9 @@ function setScore(id) {
     rolls.value = 3
     initialiseDice()
   }, 2000)
+  if (store.state.turnsRemaining === 0 && store.state.currentUser === 0) {
+    store.dispatch('setGameOver', true)
+  }
 }
 function initialiseDice() {
   for (let i = 0; i < 5; i++) {
@@ -84,6 +105,9 @@ const currentUserNamePossessive = computed(() => {
 })
 const opacityWhenScoring = computed(() => {
   return isScoring.value ? 0.5 : 1
+})
+const isGameOver = computed(() => {
+  return store.state.gameOver
 })
 onMounted(() => {
   initialiseDice()
@@ -212,13 +236,16 @@ die.grey {
 .score-row.isScoring:not(.isUsed) .score-name:active {
   box-shadow: 2px 2px 4px #0003 inset, -2px -2px 4px #fff inset;
 }
+.big {
+  font-size: larger;
+}
 .center {
   text-align: center;
 }
-button {
-  margin-left: auto;
-}
 .btn {
   margin-block: 1.5rem;
+  display: grid;
+  justify-content: center;
+  gap: 0.5rem;
 }
 </style>

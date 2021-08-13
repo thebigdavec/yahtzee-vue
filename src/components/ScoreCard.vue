@@ -1,8 +1,9 @@
 <template>
   <div id="score-card">
     <h2 class="center">{{ userNamePossessive }} Score Card</h2>
+    <h3>Section A</h3>
+    <h3>Section B</h3>
     <div class="score-section">
-      <h3>Section A</h3>
       <div
         class="score-row"
         :class="{ isUsed: isAcesUsed, isScoring: isScoring }"
@@ -129,14 +130,16 @@
         </div>
       </div>
       <div class="score-row bold">
-        <div class="score-name">TOTAL</div>
+        <div class="score-name column">
+          TOTAL
+          <small>for section A</small>
+        </div>
         <div class="score-amount">
           {{ upperTotal }}
         </div>
       </div>
     </div>
     <div class="score-section">
-      <h3>Section B</h3>
       <div
         class="score-row"
         :class="{ isUsed: isThreeOfAKindUsed, isScoring: isScoring }"
@@ -247,21 +250,14 @@
       <div class="score-row bold">
         <div class="score-name column">
           TOTAL
-          <small>of Section A</small>
-        </div>
-        <div class="score-amount">{{ lowerTotal }}</div>
-      </div>
-      <div class="score-row bold">
-        <div class="score-name column">
-          TOTAL
-          <small>of Section B</small>
+          <small>for Section B</small>
         </div>
         <div class="score-amount">{{ upperTotal }}</div>
       </div>
-      <div class="score-row bold">
-        <div class="score-name">GRAND TOTAL</div>
-        <div class="score-amount">{{ grandTotal }}</div>
-      </div>
+    </div>
+    <div id="grand-total" class="score-row big bold">
+      <div class="score-name">GRAND TOTAL</div>
+      <div class="score-amount">{{ grandTotal }}</div>
     </div>
   </div>
 </template>
@@ -398,9 +394,18 @@ const grandTotal = computed(() => {
 <style scoped>
 #score-card {
   display: grid;
+  gap: 1rem;
   grid-template-columns: 1fr 1fr;
 }
 h2 {
   grid-column: 1 / -1;
+  line-height: 1;
+}
+#grand-total {
+  grid-column: -2 / -1;
+}
+
+h3 {
+  line-height: 1.4;
 }
 </style>
