@@ -115,8 +115,8 @@ body {
 }
 .die {
   cursor: pointer;
-  width: 5rem;
-  height: 5rem;
+  width: clamp(3rem, 12vw, 10rem);
+  height: clamp(3rem, 12vw, 10rem);
   background-color: whitesmoke;
   background-image: linear-gradient(185deg, #fff3, #0001);
   border: 1px solid #bbb;
