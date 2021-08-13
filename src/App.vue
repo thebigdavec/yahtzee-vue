@@ -65,7 +65,10 @@ function setScore(id) {
     rolls.value = 3
     initialiseDice()
   }, 2000)
-  if (store.state.turnsRemaining === 0 && store.state.currentUser === 0) {
+  if (
+    store.state.turnsRemaining === 0 &&
+    store.state.currentUser === store.state.users.length - 1
+  ) {
     store.dispatch('setGameOver', true)
   }
 }

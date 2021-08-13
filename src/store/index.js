@@ -5,69 +5,11 @@ const store = createStore({
     return {
       currentUser: 0,
       isScoring: false,
-      turnsRemaining: 2,
+      turnsRemaining: 12,
       gameOver: false,
       users: [
         {
-          name: 'Dave',
-          scoreCard: {
-            aces: {
-              value: 0,
-              isUsed: false
-            },
-            twos: {
-              value: 0,
-              isUsed: false
-            },
-            threes: {
-              value: 0,
-              isUsed: false
-            },
-            fours: {
-              value: 0,
-              isUsed: false
-            },
-            fives: {
-              value: 0,
-              isUsed: false
-            },
-            sixes: {
-              value: 0,
-              isUsed: false
-            },
-            threeOfAKind: {
-              value: 0,
-              isUsed: false
-            },
-            fourOfAKind: {
-              value: 0,
-              isUsed: false
-            },
-            fullHouse: {
-              value: 0,
-              isUsed: false
-            },
-            smStraight: {
-              value: 0,
-              isUsed: false
-            },
-            lgStraight: {
-              value: 0,
-              isUsed: false
-            },
-            yahtzee: {
-              value: 0,
-              isUsed: false
-            },
-            chance: {
-              value: 0,
-              isUsed: false
-            },
-            yahtzeeBonus: 0
-          }
-        },
-        {
-          name: 'Chris',
+          name: 'Player 1',
           scoreCard: {
             aces: {
               value: 0,
@@ -124,6 +66,64 @@ const store = createStore({
             yahtzeeBonus: 0
           }
         }
+        // {
+        //   name: 'Chris',
+        //   scoreCard: {
+        //     aces: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     twos: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     threes: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     fours: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     fives: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     sixes: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     threeOfAKind: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     fourOfAKind: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     fullHouse: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     smStraight: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     lgStraight: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     yahtzee: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     chance: {
+        //       value: 0,
+        //       isUsed: false
+        //     },
+        //     yahtzeeBonus: 0
+        //   }
+        // }
       ]
     }
   },
@@ -465,7 +465,6 @@ const store = createStore({
         diceValues[dice[i].die - 1]++
       }
       const checkYahtzee = diceValues.find(dieVal => dieVal === 5)
-      console.log('Auto check for yahtzee:', checkYahtzee)
       if (
         checkYahtzee &&
         state.users[state.currentUser].scoreCard.yahtzee.value === 50

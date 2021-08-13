@@ -267,7 +267,6 @@ import Die from './Die.vue'
 import { computed } from 'vue'
 import { useStore, mapState } from 'vuex'
 const store = useStore()
-console.log(store.getters.upperTotal)
 
 const emit = defineEmits(['confirmScoreSelection'])
 
