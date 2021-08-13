@@ -54,7 +54,9 @@ function initialiseDice() {
   }
 }
 function toggleHoldDie(id) {
-  dice.value[id].isHeld = !dice.value[id].isHeld
+  if (rolls.value < 3) {
+    dice.value[id].isHeld = !dice.value[id].isHeld
+  }
 }
 function rollDice() {
   for (let i = 0; i < 5; i++) {
@@ -135,6 +137,9 @@ body {
   width: 1rem;
   height: 1rem;
   cursor: default;
+}
+die.grey {
+  pointer-events: none;
 }
 .spot {
   background-color: transparent;
