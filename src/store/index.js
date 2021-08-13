@@ -67,7 +67,7 @@ const store = createStore({
           }
         }
         // {
-        //   name: 'Chris',
+        //   name: 'Player 2',
         //   scoreCard: {
         //     aces: {
         //       value: 0,
