@@ -141,19 +141,19 @@ const store = createStore({
       return state.users[state.currentUser].scoreCard.aces.value
     },
     twos(state) {
-      return state.users[state.currentUser].scoreCard.twos.value * 2
+      return state.users[state.currentUser].scoreCard.twos.value
     },
     threes(state) {
-      return state.users[state.currentUser].scoreCard.threes.value * 3
+      return state.users[state.currentUser].scoreCard.threes.value
     },
     fours(state) {
-      return state.users[state.currentUser].scoreCard.fours.value * 4
+      return state.users[state.currentUser].scoreCard.fours.value
     },
     fives(state) {
-      return state.users[state.currentUser].scoreCard.fives.value * 5
+      return state.users[state.currentUser].scoreCard.fives.value
     },
     sixes(state) {
-      return state.users[state.currentUser].scoreCard.sixes.value * 6
+      return state.users[state.currentUser].scoreCard.sixes.value
     },
     threeOfAKind(state) {
       return state.users[state.currentUser].scoreCard.threeOfAKind.value
@@ -221,21 +221,21 @@ const store = createStore({
     upperTotal(state) {
       const total =
         state.users[state.currentUser].scoreCard.aces.value +
-        state.users[state.currentUser].scoreCard.twos.value * 2 +
-        state.users[state.currentUser].scoreCard.threes.value * 3 +
-        state.users[state.currentUser].scoreCard.fours.value * 4 +
-        state.users[state.currentUser].scoreCard.fives.value * 5 +
-        state.users[state.currentUser].scoreCard.sixes.value * 6
+        state.users[state.currentUser].scoreCard.twos.value +
+        state.users[state.currentUser].scoreCard.threes.value +
+        state.users[state.currentUser].scoreCard.fours.value +
+        state.users[state.currentUser].scoreCard.fives.value +
+        state.users[state.currentUser].scoreCard.sixes.value
       return total
     },
     bonus35(state) {
       const total =
         state.users[state.currentUser].scoreCard.aces.value +
-        state.users[state.currentUser].scoreCard.twos.value * 2 +
-        state.users[state.currentUser].scoreCard.threes.value * 3 +
-        state.users[state.currentUser].scoreCard.fours.value * 4 +
-        state.users[state.currentUser].scoreCard.fives.value * 5 +
-        state.users[state.currentUser].scoreCard.sixes.value * 6
+        state.users[state.currentUser].scoreCard.twos.value +
+        state.users[state.currentUser].scoreCard.threes.value +
+        state.users[state.currentUser].scoreCard.fours.value +
+        state.users[state.currentUser].scoreCard.fives.value +
+        state.users[state.currentUser].scoreCard.sixes.value
       if (total >= 63) return 35
       return 0
     },
@@ -267,23 +267,28 @@ const store = createStore({
           state.users[state.currentUser].scoreCard.aces.isUsed = true
           break
         case 'twos':
-          state.users[state.currentUser].scoreCard.twos.value = diceValues[1]
+          state.users[state.currentUser].scoreCard.twos.value =
+            diceValues[1] * 2
           state.users[state.currentUser].scoreCard.twos.isUsed = true
           break
         case 'threes':
-          state.users[state.currentUser].scoreCard.threes.value = diceValues[2]
+          state.users[state.currentUser].scoreCard.threes.value =
+            diceValues[2] * 3
           state.users[state.currentUser].scoreCard.threes.isUsed = true
           break
         case 'fours':
-          state.users[state.currentUser].scoreCard.fours.value = diceValues[3]
+          state.users[state.currentUser].scoreCard.fours.value =
+            diceValues[3] * 4
           state.users[state.currentUser].scoreCard.fours.isUsed = true
           break
         case 'fives':
-          state.users[state.currentUser].scoreCard.fives.value = diceValues[4]
+          state.users[state.currentUser].scoreCard.fives.value =
+            diceValues[4] * 5
           state.users[state.currentUser].scoreCard.fives.isUsed = true
           break
         case 'sixes':
-          state.users[state.currentUser].scoreCard.sixes.value = diceValues[5]
+          state.users[state.currentUser].scoreCard.sixes.value =
+            diceValues[5] * 6
           state.users[state.currentUser].scoreCard.sixes.isUsed = true
           break
         case 'threeOfAKind':
